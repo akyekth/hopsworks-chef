@@ -95,7 +95,7 @@ Vagrant.configure("2") do |c|
 	  "default" =>      { 
    	  	       "private_ips" => ["10.0.2.15"]
 	       },
-	"war_url" => "http://snurran.sics.se/hops/hopsworks-gautier.war",
+	"war_url" => "http://snurran.sics.se/hops/hopsworks-jim.war",
         "user_envs" => "false",
         "twofactor_auth" => "false",
      },
@@ -131,8 +131,8 @@ Vagrant.configure("2") do |c|
                  }
      },
      "dal" => {
-           "download_url" => "http://snurran.sics.se/hops/gautier/ndb-dal-2.4.0-7.5.3.jar",
-           "lib_url" => "http://snurran.sics.se/hops/gautier/libhopsyarn-2.4.0-7.5.3.so",
+           "download_url" => "http://snurran.sics.se/hops/gautier/ndb-dal-2.4.0-7.5.4.jar",
+           "lib_url" => "http://snurran.sics.se/hops/gautier/libhopsyarn-2.4.0-7.5.4.so",
            "schema_url" => "http://snurran.sics.se/hops/gautier/hops.sql"
      },
      "apache_hadoop"  =>    {
