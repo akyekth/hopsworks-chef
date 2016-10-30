@@ -47,6 +47,8 @@ recipe  "hopsworks::dev", "Installs development libraries needed for HopsWorks d
 
 recipe  "hopsworks::letsencypt", "Given a glassfish installation and a letscrypt installation, update glassfish's key."
 
+recipe  "hopsworks::localhost", "Wrapper recipe that installs the entire hopsworks stack"
+
 recipe  "hopsworks::purge", "Deletes glassfish installation."
 
 #######################################################################################
