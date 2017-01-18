@@ -25,11 +25,11 @@ Vagrant.configure("2") do |c|
 # MySQL Server
   c.vm.network(:forwarded_port, {:guest=>9090, :host=>33444})
 
-  c.vm.network(:forwarded_port, {:guest=>3306, :host=>8888})
+  c.vm.network(:forwarded_port, {:guest=>3306, :host=>3306})
 # HTTP webserver
   c.vm.network(:forwarded_port, {:guest=>8080, :host=>8080})
 # HTTPS webserver
-  c.vm.network(:forwarded_port, {:guest=>8181, :host=>15009})
+  c.vm.network(:forwarded_port, {:guest=>8181, :host=>8181})
 # Glassfish webserver
   c.vm.network(:forwarded_port, {:guest=>4848, :host=>4848})
 # HDFS webserver
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |c|
 # Flink webserver
   c.vm.network(:forwarded_port, {:guest=>9088, :host=>9088})
 # Glassfish Debugger port
-  c.vm.network(:forwarded_port, {:guest=>9009, :host=>9191})
+  c.vm.network(:forwarded_port, {:guest=>9009, :host=>9009})
 # Ooozie port
   c.vm.network(:forwarded_port, {:guest=>11000, :host=>11000})
 # Dr Elephant	
@@ -55,7 +55,7 @@ Vagrant.configure("2") do |c|
 # Grafana Server
   c.vm.network(:forwarded_port, {:guest=>3000, :host=>50075})
 # Graphite WebServer
-  c.vm.network(:forwarded_port, {:guest=>3000, :host=>8181})
+  c.vm.network(:forwarded_port, {:guest=>3000, :host=>30081})
 # Logstash Server
 #  c.vm.network(:forwarded_port, {:guest=>3000, :host=>8181})
 # Dela udp ports
@@ -88,16 +88,16 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
           "mgmd" => { 
-     	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
 	  "ndbd" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
 	  "mysqld" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
 	  "memcached" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
           "public_ips" => ["10.0.2.15"],
           "private_ips" => ["10.0.2.15"],
@@ -110,12 +110,12 @@ Vagrant.configure("2") do |c|
             "private_ips" => ["10.0.2.15"]
         },
         "gmail" =>      { 
-            "email" => "dela@gmail.com"
+            "email" => "hopsworks@gmail.com"
         },
         "war_url" => "http://snurran.sics.se/hops/hopsworks-johan.war",
         "user_envs" => "false",
-        "domain" => "bbc1.sics.se",
-        "public_port" => 25100,
+        "domain" => "193.10.66.104",
+        "public_port" => 8080,
         "twofactor_auth" => "false",
      },
      "zeppelin" => {
@@ -123,7 +123,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
      },
      "elastic" => {
@@ -131,7 +131,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+	       "private_ips" => ["10.0.2.15"]
 	       },
      },
      "public_ips" => ["10.0.2.15"],
@@ -140,46 +140,46 @@ Vagrant.configure("2") do |c|
                  "dir" => "/srv/hops",
 		 "use_hopsworks" => "true",
 		 "rm" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+	      "private_ips" => ["10.0.2.15"]
                  },
 		 "nn" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+	      "private_ips" => ["10.0.2.15"]
                  },
 		 "dn" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+	      "private_ips" => ["10.0.2.15"]
                  },
 		 "nm" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+              "private_ips" => ["10.0.2.15"]
                  },
 		 "jhs" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+	      "private_ips" => ["10.0.2.15"]
                  }
      },
      "apache_hadoop"  =>    {
 	        "dir" => "/srv/hops",
-     	        "hdfs" => {
+	        "hdfs" => {
                       "user" => "glassfish"
                  },
-     	        "yarn" => {
+	        "yarn" => {
 		      "user" => "glassfish"
 		 },
 		 "mr" => {
 		      "user" => "glassfish"
 		 },
 		 "rm" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+                   "private_ips" => ["10.0.2.15"]
                  },
 		 "nn" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+                   "private_ips" => ["10.0.2.15"]
                  },
 		 "dn" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+                   "private_ips" => ["10.0.2.15"]
                  },
 		 "nm" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+                   "private_ips" => ["10.0.2.15"]
                  },
 		 "jhs" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
+                   "private_ips" => ["10.0.2.15"]
                  },
       },
      "flink"  =>    {
@@ -197,10 +197,10 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "master" =>    { 
-       	 	      "private_ips" => ["10.0.2.15"]
+               "private_ips" => ["10.0.2.15"]
           },
 	  "worker" =>    { 
-       	 	      "private_ips" => ["10.0.2.15"]
+              "private_ips" => ["10.0.2.15"]
           }
      },
      "kzookeeper" => {
@@ -208,7 +208,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "livy" => {
@@ -216,7 +216,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "epipe" => {
@@ -224,17 +224,17 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "kibana" => {
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "hopsmonitor" => {
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "drelephant" => {
@@ -242,7 +242,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "kagent" => {
@@ -251,7 +251,7 @@ Vagrant.configure("2") do |c|
           "dir" => "/srv/hops",
           "enabled" => "true",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "kkafka" => {
@@ -259,7 +259,7 @@ Vagrant.configure("2") do |c|
           "group" => "glassfish",
           "dir" => "/srv/hops",
 	  "default" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
+          "private_ips" => ["10.0.2.15"]
 	       },
      },
      "dela" => {
@@ -272,8 +272,8 @@ Vagrant.configure("2") do |c|
         },
      },
      "hops_site" => {
-        "domain" => "bbc1.sics.se",
-        "public_port" => 25100, 
+        "domain" => "193.10.66.104",
+        "public_port" => 8080, 
      },
      "cuda" => {
 	  "enabled": "false",
