@@ -41,10 +41,11 @@ suites:
        - recipe[zeppelin::install]
        - recipe[hadoop_spark::install]
        - recipe[flink::install]
+       - recipe[logstash::install]
 #       - recipe[adam::install]
 #       - recipe[kzookeeper::install]
-#       - recipe[kkafka::install]
        - recipe[livy::install]
+       - recipe[logstash::server]
        - recipe[ndb::mgmd]
        - recipe[ndb::ndbd]
        - recipe[ndb::mysqld]
@@ -64,11 +65,8 @@ suites:
 
     attributes:
 #         download_url: "http://192.168.1.2/hops"
-        # authorization:
-        #    sudo:
-        #      users: ['vagrant']
-        #      passwordless: true
-        #      include_sudoers_d: true
+         cuda:
+            enabled: "false"
          kzookeeper:
             default:
                private_ips: ["10.0.2.15"]

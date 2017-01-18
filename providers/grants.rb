@@ -7,10 +7,13 @@ notifying_action :reload_systemd do
     user "root"
     code <<-EOF
           systemctl daemon-reload
-          systemctl stop glassfish-domain1.service
-          pid=`ps | grep glassfish | awk 'NR==1{print $1}' | cut -d' ' -f1`;
-          kill $pid          
-          systemctl start glassfish-domain1.service
+          service glassfish-domain1 restart
+#          systemctl stop glassfish-domain1.service
+#          pid=`ps | grep glassfish | awk 'NR==1{print $1}' | cut -d' ' -f1`
+#          if [ "$pid" != "" ] ; then
+#             kill $pid || true          
+#          fi 
+#          systemctl start glassfish-domain1.service
     EOF
   end
 
@@ -39,7 +42,7 @@ notifying_action :create_timers do
     code <<-EOF
       set -e
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS glassfish_timers CHARACTER SET latin1\"
-      #{exec} glassfish_timers -e \"source #{new_resource.tables_path}\"
+      #{exec} glassfish_timers < #{new_resource.tables_path}
     EOF
     not_if "#{exec} -e 'show databases' | grep glassfish_timers"
   end
@@ -57,9 +60,21 @@ notifying_action :create_tables do
     code <<-EOF
       set -e
       #{exec} -e \"CREATE DATABASE IF NOT EXISTS hopsworks CHARACTER SET latin1\"
-      #{exec} #{db} -e \"source #{new_resource.tables_path}\"
+      #{exec} #{db} < #{new_resource.tables_path}
     EOF
     not_if "#{exec} -e 'show databases' | grep hopsworks"
+  end
+
+#
+# There is no support for distributed views in MySQL Cluster, so each mysql server has to install
+# the views
+  bash 'create_hopsworks_views' do
+    user "root"
+    code <<-EOF
+      set -e
+      #{exec} #{db} < #{new_resource.views_path}
+    EOF
+    not_if "#{exec} -e hopsworks \"show tables like 'users_groups'\" | grep users_groups"
   end
 
 end
@@ -81,7 +96,7 @@ notifying_action :insert_rows do
     user "root"
     code <<-EOF
       set -e
-      #{exec} hopsworks -e \"source #{new_resource.rows_path}\"
+      #{exec} hopsworks < #{new_resource.rows_path}
       touch "#{node.glassfish.base_dir}/.hopsworks_rows.sql"
     EOF
     not_if { ::File.exists?("#{node.glassfish.base_dir}/.hopsworks_rows.sql") }

@@ -97,14 +97,48 @@ rescue
   Chef::Log.warn "could not find the dela server ip!"
 end
 
+begin
+  kibana_ip = private_recipe_ip("kibana","default")
+rescue 
+  kibana_ip = node.hostname
+  Chef::Log.warn "could not find the kibana server ip!"
+end
+
+begin
+  logstash_ip = private_recipe_ip("simple-logstash","default")
+rescue 
+  logstash_ip = node.hostname
+  Chef::Log.warn "could not find the logstash server ip!"
+end
+
+begin
+  hopsmonitor_ip = private_recipe_ip("hopsmonitor","default")
+rescue 
+  hopsmonitor_ip = node.hostname
+  Chef::Log.warn "could not find the hopsmonitor server ip!"
+end
+
+
 tables_path = "#{domains_dir}/tables.sql"
+views_path = "#{domains_dir}/views.sql"
 rows_path = "#{domains_dir}/rows.sql"
 
 hopsworks_grants "hopsworks_tables" do
   tables_path  "#{tables_path}"
+  views_path  "#{views_path}"
   rows_path  "#{rows_path}"
   action :nothing
 end 
+
+template views_path do
+  source File.basename("#{views_path}") + ".erb"
+  owner node.glassfish.user
+  mode 0750
+  action :create
+  variables({
+               :private_ip => private_ip
+              })
+end
 
 Chef::Log.info("Could not find previously defined #{tables_path} resource")
 template tables_path do
@@ -191,6 +225,10 @@ template "#{rows_path}" do
                 :kafka_num_replicas => node.hopsworks.kafka_num_replicas,
                 :kafka_num_partitions => node.hopsworks.kafka_num_partitions,
                 :kafka_user => node.kkafka.user,
+                :kibana_ip => kibana_ip,
+                :logstash_ip => logstash_ip,
+                :grafana_ip => hopsmonitor_ip,
+                :graphite_ip => hopsmonitor_ip,
                 :public_ip => public_ip
               })
    notifies :insert_rows, 'hopsworks_grants[hopsworks_tables]', :immediately
@@ -489,7 +527,7 @@ end
 # end
 
 
-if node.hopsworks.gmail.password .eql? "password"
+if node.hopsworks.email_password .eql? "password"
 
   bash 'gmail' do
     user "root"
@@ -567,3 +605,37 @@ template "/bin/hopsworks-2fa" do
  hopsworks_certs "generate-certs" do
    action :generate
  end
+
+
+
+
+#
+# Disable glassfish service, if node.services.enabled is not set to true
+#
+if node.services.enabled != "true"
+
+  case node.platform
+  when "ubuntu"
+    if node.platform_version.to_f <= 14.04
+      node.override.hopsworks.systemd = "false"
+    end
+  end
+
+  if node.hopsworks.systemd == "true"
+
+    service "glassfish-domain1" do
+      provider Chef::Provider::Service::Systemd
+      supports :restart => true, :stop => true, :start => true, :status => true
+      action :disable
+    end
+
+  else #sysv
+
+    service "glassfish-domain1" do
+      provider Chef::Provider::Service::Init::Debian
+      supports :restart => true, :stop => true, :start => true, :status => true
+      action :disable
+    end
+  end
+
+end

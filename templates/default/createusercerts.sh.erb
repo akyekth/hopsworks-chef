@@ -5,10 +5,14 @@ if [ $# -ne 1  ]; then
  exit 1
 fi
 
+set -e
+
 #Variables
 DOMAIN="$1"
 
-KEYSTOREPW=<%= node.hopsworks.admin.password %>
+# the cert passwd is: <%= node.hopsworks.cert.password %>
+# default should be 'adminpw'
+KEYSTOREPW=<%= node.hopsworks.master.password %>
 cd <%= @int_ca_dir %>
 
 #1 Create a user key
@@ -18,7 +22,7 @@ openssl genrsa \
 chmod 400 private/${DOMAIN}.key.pem
 
 #2 Create a user certificate
-openssl req -config openssl.cnf \
+openssl req -config ../openssl-ca.cnf \
 	  -subj "/C=SE/ST=Sweden/L=Stockholm/O=SICS/CN=${DOMAIN}" \
 	  -passin pass:$KEYSTOREPW -passout pass:$KEYSTOREPW \
       -key private/${DOMAIN}.key.pem \

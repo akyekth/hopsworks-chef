@@ -125,6 +125,9 @@ INSERT INTO variables VALUES ("drelephant_ip", "<%= @drelephant_ip %>");
 INSERT INTO variables VALUES ("drelephant_db", "<%= @drelephant_db %>");
 
 INSERT INTO variables VALUES ("hopsworks_master_password", "<%= node.hopsworks.master.password %>");
+
+INSERT INTO variables VALUES ("glassfish_cert", "false");
+
 -- --------------------------------------------------------
 --
 -- For enabling two facto authentication
@@ -132,13 +135,6 @@ INSERT INTO variables VALUES ("hopsworks_master_password", "<%= node.hopsworks.m
 
 INSERT INTO variables VALUES ("twofactor_auth", "<%= @twofactor_auth %>");
 INSERT INTO variables VALUES ("twofactor-excluded-groups", "<%= @twofactor_exclude_groups %>");
-
--- ePipe
-
-INSERT INTO epipe_recovery VALUES (1, 0);
-INSERT INTO epipe_recovery VALUES (2, 0);
-INSERT INTO epipe_recovery VALUES (3, 0);
-
 
 -- kmon
 
@@ -148,6 +144,7 @@ INSERT INTO hosts(hostid, hostname_) VALUES <%= @hosts %>;
 --
 -- dela
 --
+
 
 INSERT INTO variables VALUES ("hopsworks_domain","<%= node.hopsworks.domain %>");
 
@@ -160,3 +157,20 @@ INSERT INTO variables VALUES ("dela_endpoint","http://<%= @dela_ip %>:<%= @dela_
 INSERT INTO variables VALUES ("hops_site_endpoint","<%= node.hops_site.endpoint %>");
 
 INSERT INTO variables VALUES ("public_search_endpoint","<%= node.hopsworks.public_search_endpoint %>");
+
+INSERT INTO variables VALUES ("rest_port","<%= node.hopsworks.port %>");
+
+INSERT INTO variables VALUES ("max_gpu_request_size","<%= node.hopsworks.max_gpu_request_size %>");
+
+INSERT INTO variables VALUES ("max_cpu_request_size","<%= node.hopsworks.max_cpu_request_size %>");
+
+--
+-- kibana, logstash, grafana, graphite
+--
+
+INSERT INTO variables VALUES ("kibana_ip", "<%= @kibana_ip %>");
+INSERT INTO variables VALUES ("logstash_ip", "<%= @logstash_ip %>");
+INSERT INTO variables VALUES ("grafana_ip", "<%= @graphana_ip %>");
+INSERT INTO variables VALUES ("graphite_ip", "<%= @graphite_ip %>");
+
+>>>>>>> 7832c100ad3b9febe1d6ed5e28d2eae3683d90d6

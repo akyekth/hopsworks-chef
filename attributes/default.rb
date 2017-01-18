@@ -10,17 +10,21 @@ include_attribute "kzookeeper"
 default.hopsworks.version                  = "0.1.0"
 
 node.default.glassfish.variant             = "payara"
-node.default.glassfish.user                = "glassfish"
-node.default.glassfish.group               = "glassfish-admin"
+node.default.hopsworks.user                = "glassfish"
+node.default.glassfish.user                = node.hopsworks.user
+node.default.hopsworks.group               = "glassfish"
+node.default.glassfish.group               = node.hopsworks.group
 node.default.hopsworks.admin.port          = 4848
 node.default.hopsworks.port                = "8080"  
 node.default.glassfish.admin.port          = node.hopsworks.admin.port
 node.default.glassfish.port                = node.hopsworks.port.to_i
 # payara-4.1.153.zip
 node.default.glassfish.version             = '4.1.1.163'
-#node.default.glassfish.base_dir            = "/home/glassfish"
-node.default.glassfish.install_dir         = "/usr/local"
-node.default.glassfish.domains_dir         = "/srv/glassfish"
+node.default.hopsworks.dir                 = "/usr/local"
+node.default.glassfish.install_dir         = node.hopsworks.dir
+node.default.glassfish.base_dir            = node.glassfish.install_dir + "/glassfish"
+node.default.hopsworks.domains_dir         = "/srv/glassfish"
+node.default.glassfish.domains_dir         = node.hopsworks.domains_dir
 default.hopsworks.max_mem                  = "3000"
 node.default.glassfish.max_mem             = node.hopsworks.max_mem.to_i
 default.hopsworks.min_mem                  = "1024"
@@ -41,14 +45,8 @@ default.hopsworks.guava_url                = "#{node.download_url}/guava-18.0.ja
 default.hopsworks.admin.user               = "adminuser"
 default.hopsworks.admin.password           = "adminpw"
 node.default.glassfish.cert.password       = "#{node.hopsworks.admin.password}"
-#default.hopsworks.default_user             = "admin@kth.se"
-#default.hopsworks.default_password         = "admin"
 default.hopsworks.twofactor_auth           = "false"
 default.hopsworks.twofactor_exclude_groups = "AGENT" #semicolon separated list of roles
-
-# # mysql-server may be part of mysql-cluster (ndb)
-# default.mysql.mysql_bin                  = "#{node.mysql.base_dir}/bin/mysql"
-# default.mysql.mysql_cnf                  = "#{node.ndb.base_dir}/my.cnf"
 
 default.hopsworks.mysql_connector_url      = "http://snurran.sics.se/hops/mysql-connector-java-5.1.29-bin.jar"
 
@@ -70,8 +68,10 @@ default.hopsworks.private_ips              = ['10.0.2.15']
 default.kagent.enabled                     = "false"
 
 default.hopsworks.smtp                     = "smtp.gmail.com"
-default.hopsworks.gmail.email              = "hopsworks@gmail.com"
-default.hopsworks.gmail.password           = "password"
+default.hopsworks.smtp_port                = "587"
+default.hopsworks.smtp_ssl_port            = "465"
+default.hopsworks.email                    = "hopsworks@gmail.com"
+default.hopsworks.email_password           = "password"
 default.hopsworks.gmail.placeholder        = "http://snurran.sics.se/hops/hopsworks.email"
 
 # #quotas
@@ -96,11 +96,14 @@ default.glassfish.ciphersuite				= "+TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,+TL
 #
 # Dela
 #
-default.hopsworks.domain 					  = "bbc1.sics.se"
-default.hopsworks.public_port				  = node.default.hopsworks.port
-default.hopsworks.public_search_endpoint 	  = "http://#{node.hopsworks.domain}:#{node.hopsworks.public_port}/hopsworks-api/api/elastic/publicdatasets/"
-default.hopsworks.certificate             	  = "DummyCert25100"
+default.hopsworks.domain 		      = "bbc1.sics.se"
+default.hopsworks.public_port		      = node.default.hopsworks.port
+default.hopsworks.public_search_endpoint      = "http://#{node.hopsworks.domain}:#{node.hopsworks.public_port}/hopsworks-api/api/elastic/publicdatasets/"
+default.hopsworks.certificate                 = "DummyCert25100"
 
-default.hops_site.domain 					  = "bbc1.sics.se"
-default.hops_site.public_port				  = node.default.hopsworks.port
-default.hops_site.endpoint 					  = "http://#{node.hops_site.domain}:#{node.hops_site.public_port}/hops-site/webresources"
+default.hops_site.domain 		      = "bbc1.sics.se"
+default.hops_site.public_port		      = node.default.hopsworks.port
+default.hops_site.endpoint 		      = "http://#{node.hops_site.domain}:#{node.hops_site.public_port}/hops-site/webresources"
+
+default.hopsworks.max_gpu_request_size        = 1
+default.hopsworks.max_cpu_request_size        = 1

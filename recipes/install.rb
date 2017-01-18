@@ -29,6 +29,25 @@ else
 end
 
 
+directory node.hopsworks.dir  do
+  owner node.hopsworks.user
+  group node.hopsworks.group
+  mode "755"
+  action :create
+  recursive true
+  not_if "test -d #{node.hopsworks.dir}"
+
+end
+
+directory node.hopsworks.domains_dir  do
+  owner node.hopsworks.user
+  group node.hopsworks.group
+  mode "755"
+  action :create
+  recursive true
+  not_if "test -d #{node.hopsworks.domains_dir}"
+end
+
 
 node.override = {
   'java' => {
@@ -182,16 +201,6 @@ end
 
 
 
-# Hack for cuneiform that expects that the username has a /home/username directory.
-# directory "/home/#{node.glassfish.user}/software" do
-#   owner node.glassfish.user
-#   group node.glassfish.group
-#   mode "755"
-#   action :create
-#   recursive true
-# end
-
-
  template "#{node.glassfish.domains_dir}/#{domain_name}/docroot/404.html" do
     source "404.html.erb"
     owner node.glassfish.user
@@ -239,7 +248,6 @@ end
               :stop_domain_command => "#{asadmin} stop-domain #{password_file} #{domain_name}",
               :authbind => requires_authbind,
               :listen_ports => [admin_port, node.glassfish.port])
-#    notifies :restart, "service[#{service_name}]", :delayed
   end
 end
 
@@ -262,6 +270,7 @@ if systemd == true
 
     hopsworks_grants "reload_systemd" do
       tables_path  ""
+      views_path ""
       rows_path  ""
       action :reload_systemd
     end 
@@ -321,7 +330,7 @@ template "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/cr
   source "createusercerts.sh.erb"
   owner "root"
   group node.glassfish.group
-  mode "750"
+  mode "510"
  variables({
                 :int_ca_dir =>  "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/"
               })
@@ -332,7 +341,7 @@ template "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/de
   source "deleteusercerts.sh.erb"
   owner "root"
   group node.glassfish.group
-  mode "750"
+  mode "510"
  variables({
                 :int_ca_dir =>  "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/"
               })
@@ -343,7 +352,7 @@ template "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/de
   source "deleteprojectcerts.sh.erb"
   owner "root"
   group node.glassfish.group
-  mode "750"
+  mode "510"
  variables({
                 :int_ca_dir =>  "#{node.glassfish.domains_dir}/#{domain_name}/config/ca/intermediate/"
               })
