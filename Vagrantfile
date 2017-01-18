@@ -21,46 +21,50 @@ Vagrant.configure("2") do |c|
    
   c.ssh.insert_key="false"
 # Ssh port on vagrant
-  c.vm.network(:forwarded_port, {:guest=>22, :host=>22100})
+  c.vm.network(:forwarded_port, {:guest=>22, :host=>50070})
 # MySQL Server
   c.vm.network(:forwarded_port, {:guest=>9090, :host=>33444})
+
   c.vm.network(:forwarded_port, {:guest=>3306, :host=>8888})
 # HTTP webserver
-  c.vm.network(:forwarded_port, {:guest=>8080, :host=>25100})
+  c.vm.network(:forwarded_port, {:guest=>8080, :host=>8080})
 # HTTPS webserver
-  c.vm.network(:forwarded_port, {:guest=>8181, :host=>26100})
+  c.vm.network(:forwarded_port, {:guest=>8181, :host=>15009})
 # Glassfish webserver
-  c.vm.network(:forwarded_port, {:guest=>4848, :host=>27100})
+  c.vm.network(:forwarded_port, {:guest=>4848, :host=>4848})
 # HDFS webserver
-  c.vm.network(:forwarded_port, {:guest=>50070, :host=>28100})
+  c.vm.network(:forwarded_port, {:guest=>50070, :host=>50071})
 # Datanode 
   c.vm.network(:forwarded_port, {:guest=>50075, :host=>50079})
 # YARN webserver
-  c.vm.network(:forwarded_port, {:guest=>8088, :host=>30100})
+  c.vm.network(:forwarded_port, {:guest=>8088, :host=>50071})
 # Elasticsearch rpc port
-  c.vm.network(:forwarded_port, {:guest=>9200, :host=>31100})
+  c.vm.network(:forwarded_port, {:guest=>9200, :host=>9200})
 # Flink webserver
-  c.vm.network(:forwarded_port, {:guest=>9088, :host=>32100})
+  c.vm.network(:forwarded_port, {:guest=>9088, :host=>9088})
 # Glassfish Debugger port
-  c.vm.network(:forwarded_port, {:guest=>9009, :host=>33100})
+  c.vm.network(:forwarded_port, {:guest=>9009, :host=>9191})
 # Ooozie port
   c.vm.network(:forwarded_port, {:guest=>11000, :host=>34100})
+  c.vm.network(:forwarded_port, {:guest=>11000, :host=>11000})
+# Dr Elephant		
+#  c.vm.network(:forwarded_port, {:guest=>11011, :host=>11011})
 # Spark History Server
-  c.vm.network(:forwarded_port, {:guest=>18080, :host=>36100})
-# Dela udp ports
-  c.vm.network(:forwarded_port, {:guest=>40100, :host=>40100, :protocol=>"udp"})
-  c.vm.network(:forwarded_port, {:guest=>40200, :host=>40200, :protocol=>"udp"})
-  c.vm.network(:forwarded_port, {:guest=>40300, :host=>40300, :protocol=>"udp"})
-# Dela http port
-  c.vm.network(:forwarded_port, {:guest=>40400, :host=>40400})
+  c.vm.network(:forwarded_port, {:guest=>18080, :host=>18080})
 # Kibana Server
-  c.vm.network(:forwarded_port, {:guest=>5601, :host=>50070})
+  c.vm.network(:forwarded_port, {:guest=>5601, :host=>5601})
 # Grafana Server
   c.vm.network(:forwarded_port, {:guest=>3000, :host=>50075})
 # Graphite WebServer
   c.vm.network(:forwarded_port, {:guest=>3000, :host=>8181})
 # Logstash Server
 #  c.vm.network(:forwarded_port, {:guest=>3000, :host=>8181})
+# Dela udp ports
+  c.vm.network(:forwarded_port, {:guest=>40100, :host=>40100, :protocol=>"udp"})
+  c.vm.network(:forwarded_port, {:guest=>40200, :host=>40200, :protocol=>"udp"})
+  c.vm.network(:forwarded_port, {:guest=>40300, :host=>40300, :protocol=>"udp"})
+# Dela http port
+  c.vm.network(:forwarded_port, {:guest=>40400, :host=>40400})
 
   c.vm.provider :virtualbox do |p|
     p.customize ["modifyvm", :id, "--memory", "13500"]
@@ -101,6 +105,8 @@ Vagrant.configure("2") do |c|
           "enabled" => "true",
      },
      "hopsworks" => {
+        "dir" => "/srv/hops",
+        "domains_dir" => "/srv/hops",
         "default" => {
             "private_ips" => ["10.0.2.15"]
         },
@@ -293,6 +299,7 @@ Vagrant.configure("2") do |c|
       chef.add_recipe "livy::install"
       chef.add_recipe "adam::install"
     #  chef.add_recipe "oozie::install"
+      chef.add_recipe "drelephant::install"
       chef.add_recipe "kkafka::install"
       chef.add_recipe "dela::install"
       chef.add_recipe "tensorflow::install"
@@ -316,6 +323,7 @@ Vagrant.configure("2") do |c|
       chef.add_recipe "epipe::default"
       chef.add_recipe "kzookeeper::default"
       chef.add_recipe "adam::default"
+      chef.add_recipe "drelephant::default"
       chef.add_recipe "kagent::default"
     #  chef.add_recipe "oozie::default"
       chef.add_recipe "dela::default"
