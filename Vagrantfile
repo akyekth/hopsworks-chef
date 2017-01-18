@@ -37,7 +37,7 @@ Vagrant.configure("2") do |c|
 # Datanode 
   c.vm.network(:forwarded_port, {:guest=>50075, :host=>50079})
 # YARN webserver
-  c.vm.network(:forwarded_port, {:guest=>8088, :host=>50071})
+  c.vm.network(:forwarded_port, {:guest=>8088, :host=>8088})
 # Elasticsearch rpc port
   c.vm.network(:forwarded_port, {:guest=>9200, :host=>9200})
 # Flink webserver
@@ -45,9 +45,8 @@ Vagrant.configure("2") do |c|
 # Glassfish Debugger port
   c.vm.network(:forwarded_port, {:guest=>9009, :host=>9191})
 # Ooozie port
-  c.vm.network(:forwarded_port, {:guest=>11000, :host=>34100})
   c.vm.network(:forwarded_port, {:guest=>11000, :host=>11000})
-# Dr Elephant		
+# Dr Elephant	
 #  c.vm.network(:forwarded_port, {:guest=>11011, :host=>11011})
 # Spark History Server
   c.vm.network(:forwarded_port, {:guest=>18080, :host=>18080})
@@ -325,7 +324,6 @@ Vagrant.configure("2") do |c|
       chef.add_recipe "adam::default"
       chef.add_recipe "drelephant::default"
       chef.add_recipe "kagent::default"
-    #  chef.add_recipe "oozie::default"
       chef.add_recipe "dela::default"
       chef.add_recipe "kkafka::default"
       chef.add_recipe "tensorflow::default"

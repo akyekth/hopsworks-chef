@@ -15,7 +15,7 @@ node.default.glassfish.user                = node.hopsworks.user
 node.default.hopsworks.group               = "glassfish"
 node.default.glassfish.group               = node.hopsworks.group
 node.default.hopsworks.admin.port          = 4848
-node.default.hopsworks.port                = "8080"  
+node.default.hopsworks.port                = "8080" 
 node.default.glassfish.admin.port          = node.hopsworks.admin.port
 node.default.glassfish.port                = node.hopsworks.port.to_i
 # payara-4.1.153.zip
