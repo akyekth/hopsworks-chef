@@ -59,12 +59,12 @@ attribute "hopsworks/twofactor_auth",
           :type => 'string',
           :required => "required"
 
-attribute "hopsworks/email",
+attribute "hopsworks/gmail/email",
           :description => "Email address. Recommended to use a gmail account",
           :required => "required",
           :type => 'string'
 
-attribute "hopsworks/email_password",
+attribute "hopsworks/gmail/email_password",
           :description => "Password for email account. ",
           :required => "required",
           :type => 'string'
