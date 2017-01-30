@@ -268,8 +268,8 @@ Vagrant.configure("2") do |c|
         "stun_port2" => "40300",
         "http_port" => "40400",
 	"hops" => { 
-		"baseEndpoint" => "HDFS",
-	}
+		"baseEndpoint" => "HDFS"
+	},
 	"stun_servers_ip" => ["193.10.64.107","193.10.64.85"],
 	"stun_servers_id" => ["1","2"],
         "default" => { 
