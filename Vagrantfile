@@ -267,6 +267,9 @@ Vagrant.configure("2") do |c|
         "stun_port1" => "40200",
         "stun_port2" => "40300",
         "http_port" => "40400",
+	"user" => "glassfish",
+        "group" => "glassfish",
+        "dir" => "/srv/hops",
 	"hops" => { 
 		"baseEndpoint" => "HDFS"
 	},
