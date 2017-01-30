@@ -109,10 +109,8 @@ Vagrant.configure("2") do |c|
         "default" => {
             "private_ips" => ["10.0.2.15"]
         },
-        "gmail" =>      { 
-            "email" => "hopsworks@gmail.com"
-        },
-        "war_url" => "http://snurran.sics.se/hops/hopsworks-johan.war",
+        "email" => "dela1@gmail.com",
+        "war_url" => "http://snurran.sics.se/hops/hopsworks-0.1.0.war",
         "user_envs" => "false",
         "domain" => "193.10.66.104",
         "public_port" => 8080,
@@ -137,9 +135,9 @@ Vagrant.configure("2") do |c|
      "public_ips" => ["10.0.2.15"],
      "private_ips" => ["10.0.2.15"],
      "hops"  =>    {
-                 "dir" => "/srv/hops",
-		 "use_hopsworks" => "true",
-		 "rm" =>    { 
+         "dir" => "/srv/hops",
+	 "use_hopsworks" => "true",
+	         "rm" =>    { 
 	      "private_ips" => ["10.0.2.15"]
                  },
 		 "nn" =>    { 
@@ -267,6 +265,10 @@ Vagrant.configure("2") do |c|
         "stun_port1" => "40200",
         "stun_port2" => "40300",
         "http_port" => "40400",
+	"user" => "glassfish",
+	"group" => "glassfish",
+        "dir" => "/srv/hops",
+
         "default" => { 
           "private_ips" => ["10.0.2.15"]
         },
